@@ -1,6 +1,9 @@
 package com.example.myapplication
 
-class Validators {
+import androidx.appcompat.app.AppCompatActivity
+
+
+class Validators : AppCompatActivity() {
     fun validEmail(email: String?) : Boolean {
         if (email.isNullOrEmpty()) {
             return false
@@ -25,6 +28,14 @@ class Validators {
         }
         val passwordRegex = Regex("^.{4,8}\$")
         return passwordRegex.matches(password)
+
+    }
+    fun validUniversity(uni: String?) : Boolean {
+
+        if (uni.isNullOrEmpty() && !resources.getStringArray(R.array.university).contains(uni)) {
+            return false
+        }
+        return true
 
     }
 }

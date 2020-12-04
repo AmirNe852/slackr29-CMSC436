@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-   <string-array name="Universities">
+   <array name="university">
        <item>Abilene Christian University</item>
        <item>Adelphi University</item>
        <item>Agnes Scott College</item>
@@ -409,7 +408,7 @@
        <item>Keene State College</item>
        <item>Kent State University</item>
        <item>Kenyon College</item>
-       <item>King's College</item>
+       <item>Kings College</item>
        <item>Knox College</item>
        <item>Kutztown University of Pennsylvania</item>
        <item>La Sierra University</item>
@@ -627,7 +626,7 @@
        <item>Radford University</item>
        <item>Ramapo College</item>
        <item>Randolph-Macon College</item>
-       <item>Randolph-Macon Woman's College</item>
+       <item>Randolph-Macon Womans College</item>
        <item>Reed College</item>
        <item>Regent University</item>
        <item>Regis University</item>
@@ -662,25 +661,25 @@
        <item>Saint Anselm College</item>
        <item>St. Bonaventure University</item>
        <item>Saint Cloud State University</item>
-       <item>Saint Edward's University</item>
+       <item>Saint Edwards University</item>
        <item>Saint Francis College</item>
-       <item>St. John's College-Annapolis</item>
-       <item>St. John's College-Santa Fe</item>
-       <item>Saint John's University</item>
-       <item>Saint John's University</item>
+       <item>St. Johns College-Annapolis</item>
+       <item>St. Johns College-Santa Fe</item>
+       <item>Saint Johns University</item>
+       <item>Saint Johns University</item>
        <item>St. Joseph College</item>
-       <item>Saint Joseph's College</item>
-       <item>St. Joseph's College</item>
-       <item>Saint Joseph's University</item>
+       <item>Saint Josephs College</item>
+       <item>St. Josephs College</item>
+       <item>Saint Josephs University</item>
        <item>St. Lawrence University</item>
        <item>St. Louis College of Pharmacy</item>
        <item>Saint Louis University</item>
-       <item>St. Martin's College</item>
+       <item>St. Martins College</item>
        <item>Saint Mary College</item>
-       <item>Saint Mary's College</item>
-       <item>Saint Mary's College of California</item>
-       <item>Saint Mary's University of Minnesota</item>
-       <item>Saint Michael's College</item>
+       <item>Saint Marys College</item>
+       <item>Saint Marys College of California</item>
+       <item>Saint Marys University of Minnesota</item>
+       <item>Saint Michaels College</item>
        <item>Saint Olaf College</item>
        <item>St. Thomas University</item>
        <item>Saint Vincent College</item>
@@ -704,7 +703,7 @@
        <item>Shippensburg University of Pennsylvania</item>
        <item>Shorter College</item>
        <item>Simmons College</item>
-       <item>Simon's Rock College</item>
+       <item>Simons Rock College</item>
        <item>Simpson College</item>
        <item>Skidmore College</item>
        <item>Slippery Rock University of Pennsylvania</item>
@@ -789,7 +788,7 @@
        <item>Texas Southern University</item>
        <item>Texas Tech University</item>
        <item>Texas Tech University-Health Sciences Center</item>
-       <item>Texas Woman's University</item>
+       <item>Texas Womans University</item>
        <item>Thomas College</item>
        <item>Thomas Edison State College</item>
        <item>Thomas Jefferson University</item>
@@ -1105,6 +1104,7 @@
        <item>Yeshiva University</item>
        <item>York College of Pennsylvania</item>
        <item>Youngstown State University</item>
-   </string-array>
+   </array>
+
 
 </resources>

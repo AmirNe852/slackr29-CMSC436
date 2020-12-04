@@ -5,8 +5,7 @@
     android:layout_height="match_parent"
     android:gravity="center_vertical"
     android:orientation="vertical"
-    android:padding="16dp"
-    >
+    android:padding="16dp">
 
     <TextView
         android:layout_width="wrap_content"
@@ -18,20 +17,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/email"
-        android:inputType="textEmailAddress"
-        android:importantForAutofill="no" />
+        android:importantForAutofill="no"
+        android:inputType="textEmailAddress" />
 
     <EditText
         android:id="@+id/password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/password"
-        android:inputType="textPassword"
-        android:importantForAutofill="no" />
-    <AutoCompleteTextView
-        android:layout_width=""
-        android:layout_height=""
+        android:importantForAutofill="no"
+        android:inputType="textPassword" />
 
+    <AutoCompleteTextView
+        android:id= "@+id/university"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint= "@string/university"
+        android:completionThreshold="3"
+        android:dropDownAnchor="@array/university"
+        />
     <Button
         android:id="@+id/register"
         android:layout_width="match_parent"

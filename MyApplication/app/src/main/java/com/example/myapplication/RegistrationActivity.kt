@@ -4,10 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.service.autofill.Validators
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ProgressBar
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 
@@ -18,6 +15,7 @@ class RegistrationActivity : AppCompatActivity() {
     private var regBtn: Button? = null
     private var progressBar: ProgressBar? = null
     private var validator = Validators()
+    private var universityTV : EditText? = null
 
     private var mAuth: FirebaseAuth? = null
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,6 +28,7 @@ class RegistrationActivity : AppCompatActivity() {
         passwordTV = findViewById(R.id.password)
         regBtn = findViewById(R.id.register)
         progressBar = findViewById(R.id.progressBar)
+        universityTV = findViewById(R.id.university)
 
         regBtn!!.setOnClickListener { registerNewUser() }
     }
@@ -39,6 +38,7 @@ class RegistrationActivity : AppCompatActivity() {
 
         val email: String = emailTV!!.text.toString()
         val password: String = passwordTV!!.text.toString()
+        val uni = universityTV!!.text.toString()
 
         if (!validator.validEmail(email)) {
             Toast.makeText(applicationContext, "Please enter a valid email...", Toast.LENGTH_LONG).show()
@@ -48,7 +48,12 @@ class RegistrationActivity : AppCompatActivity() {
             Toast.makeText(applicationContext, "Please enter a valid password!", Toast.LENGTH_LONG).show()
             return
         }
-        if(!validator.validUniversity(university))
+        if(!validator.validUniversity(uni))
+        {
+            Toast.makeText(applicationContext, "Please enter a valid University!", Toast.LENGTH_LONG).show()
+            return
+        }
+
 
         mAuth!!.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->

@@ -8,6 +8,7 @@
         <item name="russia">Russia</item>
     </array>
 
+    <string name="university">University</string>
     <string name="enter_name">Enter name</string>
     <string name="enter_title_name">Enter title name</string>
     <string name="enter_author_name">Enter author\'s name</string>
