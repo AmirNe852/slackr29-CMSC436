@@ -31,11 +31,15 @@ class Validators : AppCompatActivity() {
 
     }
     fun validUniversity(uni: String?) : Boolean {
+        return if (uni.isNullOrEmpty()) {
+            false
+        } else resources.getStringArray(R.array.university).contains(uni)
+    }
 
-        if (uni.isNullOrEmpty() && !resources.getStringArray(R.array.university).contains(uni)) {
+    fun validDepartment(depart: String?) : Boolean {
+        if (depart.isNullOrEmpty() || !resources.getStringArray(R.array.departments).contains(depart)) {
             return false
         }
         return true
-
     }
 }

@@ -34,7 +34,6 @@ class HomePageActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.fl_wrapper, fragment)
             commit()
-
         }
 
     }

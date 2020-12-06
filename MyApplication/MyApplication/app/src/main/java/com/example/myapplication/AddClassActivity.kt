@@ -10,6 +10,11 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.Classes.GroupSize
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.FirebaseFirestore
+import java.lang.ref.Reference
 import java.util.*
 
 class AddClassActivity: Activity() {
@@ -20,22 +25,23 @@ class AddClassActivity: Activity() {
     private var mSchoolDepartmentText: AutoCompleteTextView? = null
     private var mClassNameText: EditText? = null
     private var mDefaultGroupButton: RadioButton? = null
+    private var db : FirebaseDatabase? = FirebaseDatabase.getInstance()
+    private var notebookRef : DatabaseReference? = db!!.getReference("Notebooks")
 
     private val groupSize : GroupSize
         get() {
-            when (mGroupSizeRadioGroup!!.checkedRadioButtonId)
-            {
+            return when (mGroupSizeRadioGroup!!.checkedRadioButtonId) {
                 R.id.two -> {
-                    return GroupSize.TWO
+                    GroupSize.TWO
                 }
                 R.id.three -> {
-                    return GroupSize.THREE
+                    GroupSize.THREE
                 }
                 R.id.four -> {
-                    return GroupSize.FOUR
+                    GroupSize.FOUR
                 }
                 else ->{
-                    return GroupSize.FIVEORMORE
+                    GroupSize.FIVEORMORE
                 }
             }
         }
@@ -49,6 +55,16 @@ class AddClassActivity: Activity() {
         mSchoolDepartmentText = findViewById<View>(R.id.autocompleteDep) as AutoCompleteTextView
         mClassNameText = findViewById<View>(R.id.title) as EditText
         mDefaultGroupButton= findViewById<View>(R.id.two) as RadioButton
+
+        //Dropdown suggestions for university and department.
+        val unis = resources.getStringArray(R.array.university)
+        var adapt = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, unis)
+        mUniversityText!!.setAdapter(adapt)
+
+
+        val departs = resources.getStringArray(R.array.departments)
+        adapt = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, departs)
+        mSchoolDepartmentText!!.setAdapter(adapt)
 
 
         val cancelButton = findViewById<View>(R.id.cancelButton) as Button
@@ -91,7 +107,8 @@ class AddClassActivity: Activity() {
             val universityString: String = mUniversityText?.text.toString()
             val sectionString: String = mClassSectionText?.text.toString()
             val departmentString: String = mSchoolDepartmentText?.text.toString()
-            val newClass= Classes(classString,universityString,groupSize,departmentString,sectionString)
+            val newClass= Classes(classString,universityString,groupSize,departmentString,sectionString, 1)
+            notebookRef!!.push().setValue(newClass)
             finish()
         }
     }
