@@ -2,13 +2,18 @@ package com.example.myapplication
 
 import android.app.*
 import android.content.ContentValues
+import android.content.ContentValues.TAG
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.*
+import com.google.firebase.database.*
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
+import java.lang.Exception
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class LoadClassActivity: Activity() {
@@ -17,8 +22,9 @@ class LoadClassActivity: Activity() {
     private var mSchoolDepartmentText: AutoCompleteTextView? = null
     private var mClassNameText: EditText? = null
     private var textViewData: TextView? = null
-    private var db : FirebaseFirestore? = FirebaseFirestore.getInstance()
-    private var notebookRef : CollectionReference? = db!!.collection("Notebook")
+    private var db : FirebaseDatabase? = FirebaseDatabase.getInstance()
+    private var notebookRef : DatabaseReference? = db!!.getReference("Notebooks")
+    internal lateinit var getClasses: MutableList<Classes>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +32,7 @@ class LoadClassActivity: Activity() {
         mUniversityText = findViewById<View>(R.id.autocompleteUni2) as AutoCompleteTextView
         mSchoolDepartmentText = findViewById<View>(R.id.autocompleteDep2) as AutoCompleteTextView
         mClassNameText = findViewById<View>(R.id.title2) as EditText
+        getClasses = ArrayList()
 
 
         val cancelButton = findViewById<View>(R.id.cancelButton2) as Button
@@ -54,26 +61,61 @@ class LoadClassActivity: Activity() {
             val classString: String = mClassNameText?.text.toString()
             val universityString: String = mUniversityText?.text.toString()
             val departmentString: String = mSchoolDepartmentText?.text.toString()
-            notebookRef!!.get()
-                    .addOnSuccessListener { queryDocumentSnapshots ->
-                        var data = ""
-                        for (documentSnapshot in queryDocumentSnapshots) {
-                            val myClass = documentSnapshot.toObject(Classes::class.java)
-                            myClass.setclassId(documentSnapshot.id)
-                            val classId: String = myClass.getclassId()
-                            val name: String = myClass.getclassName()
-                            val dep: String = myClass.getschoolDepartment()
-                            val getUni: String = myClass.getuniversity()
-                            val students: Int = myClass.getnumStudents()
-                            data += """
-   
-            Title: $name
-            Department: $dep
-            University: $getUni
-            """.trimIndent()
+            notebookRef!!.addValueEventListener(object: ValueEventListener {
+
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    getClasses.clear()
+                    var single: Classes? = null
+                    for(postSnap in dataSnapshot.children)
+                    {
+                        try {
+                            single = postSnap.getValue(Classes::class.java)
+                            if(single!!.className == classString && single!!.university == universityString && single!!.schoolDepartment == departmentString){
+                                getClasses.add(single!!)
+                            }
                         }
-                        textViewData!!.text = data
+                        catch (e: Exception){
+                            Log.e(TAG, e.toString())
+                        }
                     }
+                    if(getClasses.size > 0)
+                    {
+                        val intent = Intent(this@LoadClassActivity, ListClassActivity::class.java)
+                        intent.putExtra("mylist", getClasses as ArrayList<Classes>)
+                        startActivity(intent)
+                    }
+                    else{
+                        val toast = Toast.makeText(applicationContext, "There are no Study Groups that match your Criteria", Toast.LENGTH_LONG)
+                        toast.show()
+                    }
+
+                }
+
+                override fun onCancelled(databaseError : DatabaseError) {
+                    Log.e("cancel", databaseError.toString())
+                }
+
+            })
+//            notebookRef!!.get()
+//                    .addOnSuccessListener { queryDocumentSnapshots ->
+//                        var data = ""
+//                        for (documentSnapshot in queryDocumentSnapshots) {
+//                            val myClass = documentSnapshot.toObject(Classes::class.java)
+//                            myClass.setclassId(documentSnapshot.id)
+//                            val classId: String = myClass.getclassId()
+//                            val name: String = myClass.getclassName()
+//                            val dep: String = myClass.getschoolDepartment()
+//                            val getUni: String = myClass.getuniversity()
+//                            val students: Int = myClass.getnumStudents()
+//                            data += """
+//
+//            Title: $name
+//            Department: $dep
+//            University: $getUni
+//            """.trimIndent()
+//                        }
+//                        textViewData!!.text = data
+//                    }
 
             finish()
         }

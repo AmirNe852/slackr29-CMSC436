@@ -56,16 +56,6 @@ class AddClassActivity: Activity() {
         mClassNameText = findViewById<View>(R.id.title) as EditText
         mDefaultGroupButton= findViewById<View>(R.id.two) as RadioButton
 
-        //Dropdown suggestions for university and department.
-        val unis = resources.getStringArray(R.array.university)
-        var adapt = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, unis)
-        mUniversityText!!.setAdapter(adapt)
-
-
-        val departs = resources.getStringArray(R.array.departments)
-        adapt = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, departs)
-        mSchoolDepartmentText!!.setAdapter(adapt)
-
 
         val cancelButton = findViewById<View>(R.id.cancelButton) as Button
         cancelButton.setOnClickListener { Log.i(TAG, "Entered cancelButton.OnClickListener.onClick()")

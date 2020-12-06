@@ -27,29 +27,7 @@ class Classes {
        this.numStudents = numStudents
    }
 
-    fun setclassId(Id: String)
-    {
-        classId = Id
-    }
-    fun getclassId(): String {
-        return classId
-    }
 
-    fun getuniversity(): String {
-        return university
-    }
-    fun getclassName(): String {
-        return className
-    }
-    fun getschoolDepartment(): String {
-        return schoolDepartment
-    }
-    fun getclassSection(): String {
-        return classSection
-    }
-    fun getnumStudents(): Int{
-        return numStudents
-    }
 
 
 

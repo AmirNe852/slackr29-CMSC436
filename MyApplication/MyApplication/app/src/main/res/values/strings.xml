@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MyHomeLibrary</string>
+    <string name="app_name">Slackr</string>
     <array name="countries">
         <item name="america">America</item>
         <item name="france">France</item>
@@ -7,7 +7,7 @@
         <item name="columbia">Columbia</item>
         <item name="russia">Russia</item>
     </array>
-
+    <string name="group">Study Groups</string>
     <string name="university">University Name</string>
     <string name="enter_name">Enter name</string>
     <string name="enter_title_name">Enter title name</string>
