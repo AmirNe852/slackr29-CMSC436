@@ -30,12 +30,22 @@ class Validators : AppCompatActivity() {
         return passwordRegex.matches(password)
 
     }
-    fun validUniversity(uni: String?) : Boolean {
-
-        if (uni.isNullOrEmpty() && !resources.getStringArray(R.array.university).contains(uni)) {
+    fun validName(name: String?) : Boolean {
+        if (name.isNullOrEmpty()) {
             return false
         }
         return true
+    }
+    fun validUniversity(uni: String?) : Boolean {
+        return if (uni.isNullOrEmpty()) {
+            false
+        } else resources.getStringArray(R.array.university).contains(uni)
+    }
 
+    fun validDepartment(depart: String?) : Boolean {
+        if (depart.isNullOrEmpty() || !resources.getStringArray(R.array.departments).contains(depart)) {
+            return false
+        }
+        return true
     }
 }

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/display_name"
+        android:text="@string/display_name"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="5dp"/>
+
+    <TextView
+
+        android:id="@+id/display_dep"
+        android:text="@string/display_dep"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/display_name"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="5dp" />
+    <TextView
+        android:id="@+id/display_uni"
+        android:text="@string/display_uni"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/display_dep"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="5dp" />
+    <TextView
+        android:id="@+id/display_section"
+        android:text="@string/display_section"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/display_uni"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="5dp" />
+    <TextView
+        android:id="@+id/display_size"
+        android:text="@string/display_size"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/display_section"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="5dp" />
+
+    <Button
+        android:id="@+id/join_class"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/display_size"
+        android:layout_marginTop="8dp"
+        android:text="@string/join_button" />
+
+
+</RelativeLayout>
