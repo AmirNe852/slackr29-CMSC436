@@ -7,6 +7,8 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 class RegistrationActivity : AppCompatActivity() {
 
@@ -16,6 +18,8 @@ class RegistrationActivity : AppCompatActivity() {
     private var progressBar: ProgressBar? = null
     private var validator = Validators()
     private var universityTV : AutoCompleteTextView? = null
+    private var user : FirebaseDatabase? = FirebaseDatabase.getInstance()
+    private var userRef : DatabaseReference? = user!!.getReference("Users")
 
     private var mAuth: FirebaseAuth? = null
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,8 +33,6 @@ class RegistrationActivity : AppCompatActivity() {
         regBtn = findViewById(R.id.register)
         progressBar = findViewById(R.id.progressBar)
         regBtn!!.setOnClickListener { registerNewUser() }
-
-
     }
 
     private fun registerNewUser() {
@@ -38,8 +40,6 @@ class RegistrationActivity : AppCompatActivity() {
 
         val email: String = emailTV!!.text.toString()
         val password: String = passwordTV!!.text.toString()
-
-
 
         if (!validator.validEmail(email)) {
             Toast.makeText(applicationContext, "Please enter a valid email...", Toast.LENGTH_LONG).show()
@@ -50,13 +50,13 @@ class RegistrationActivity : AppCompatActivity() {
             return
         }
 
-
-
         mAuth!!.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Toast.makeText(applicationContext, "Registration successful!", Toast.LENGTH_LONG).show()
                     progressBar!!.visibility = View.GONE
+
+                    userRef!!.push().child("email").setValue(email)
 
                     val intent = Intent(this@RegistrationActivity, LoginActivity::class.java)
                     startActivity(intent)

@@ -27,6 +27,10 @@ class Classes {
        this.numStudents = numStudents
    }
 
+    override fun toString(): String {
+        return className+university+schoolDepartment
+    }
+
 
 
 

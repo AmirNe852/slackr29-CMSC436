@@ -66,10 +66,12 @@ class LoadClassActivity: Activity() {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     getClasses.clear()
                     var single: Classes? = null
+                    Log.e("SLackr", dataSnapshot.toString())
                     for(postSnap in dataSnapshot.children)
                     {
                         try {
                             single = postSnap.getValue(Classes::class.java)
+                            Log.e("SLackr", single.toString() )
                             if(single!!.className == classString && single!!.university == universityString && single!!.schoolDepartment == departmentString){
                                 getClasses.add(single!!)
                             }

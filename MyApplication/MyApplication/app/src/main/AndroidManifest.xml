@@ -21,6 +21,7 @@
         <activity android:name=".HomePageActivity" />
         <activity android:name=".AddClassActivity" />
         <activity android:name=".LoadClassActivity"/>
+        <activity android:name=".ListClassActivity"/>
     </application>
 
 </manifest>
