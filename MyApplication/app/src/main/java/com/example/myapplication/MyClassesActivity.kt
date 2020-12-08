@@ -6,22 +6,19 @@ import android.widget.AdapterView
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
 
-
-class ListClassActivity : AppCompatActivity(){
+class MyClassesActivity : AppCompatActivity(){
     private lateinit var listViewClasses: ListView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.list_classes)
         listViewClasses = findViewById(R.id.list_class)
         val myList = intent.getSerializableExtra("mylist") as ArrayList<Classes>
-        val classListAdapter = ClassList(this@ListClassActivity, myList)
+        val classListAdapter = ClassList(this@MyClassesActivity, myList)
         listViewClasses.adapter = classListAdapter
         listViewClasses.onItemClickListener = AdapterView.OnItemClickListener{
             adapterView, view, i, l ->
             val getClass = myList[i]
-            val intent = Intent(this@ListClassActivity, ClassDetailsActivity::class.java)
-            intent.putExtra("singleClass", getClass)
-            startActivity(intent)
+
         }
     }
 }

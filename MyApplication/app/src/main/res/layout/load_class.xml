@@ -22,7 +22,6 @@
         android:hint= "@string/university"
         android:layout_below="@id/universityLabel2"
         android:completionThreshold="3"
-        android:dropDownAnchor="@array/university"
         />
     <TextView
         android:id="@+id/departmentLabel2"
@@ -41,7 +40,6 @@
         android:hint= "@string/department_hint"
         android:layout_below="@id/departmentLabel2"
         android:completionThreshold="3"
-        android:dropDownAnchor="@array/university"
         />
 
 

@@ -55,8 +55,11 @@ class ClassDetailsActivity: AppCompatActivity() {
         section.text = singleClass.classSection
 
        joinClass.setOnClickListener{
+           singleClass.numStudents = singleClass.numStudents+1
            usersDB!!.child(dataUser!!.uid).child("joinedClasses").push().setValue(singleClass)
+           finish()
        }
+
 
     }
 }

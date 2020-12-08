@@ -62,6 +62,14 @@ class AddClassActivity: Activity() {
         mClassNameText = findViewById<View>(R.id.title) as EditText
         mDefaultGroupButton= findViewById<View>(R.id.two) as RadioButton
 
+        val unis = resources.getStringArray(R.array.university)
+        val uniAdapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, unis)
+        mUniversityText!!.setAdapter(uniAdapter)
+
+        val depart = resources.getStringArray(R.array.departments)
+        val departAdapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, depart)
+        mSchoolDepartmentText!!.setAdapter(departAdapter)
+
 
         val cancelButton = findViewById<View>(R.id.cancelButton) as Button
         cancelButton.setOnClickListener { Log.i(TAG, "Entered cancelButton.OnClickListener.onClick()")
@@ -86,28 +94,38 @@ class AddClassActivity: Activity() {
         // Set up OnClickListener for the Submit Button
         val submitButton = findViewById<View>(R.id.submitButton) as Button
         submitButton.setOnClickListener {
-            Log.i(TAG, "Entered submitButton.OnClickListener.onClick()")
-            // TODO - gather ToDoItem data
-            val groupSize: GroupSize =
-                if(mGroupSizeRadioGroup!!.checkedRadioButtonId == R.id.two) {
-                    GroupSize.TWO
-                } else if(mGroupSizeRadioGroup!!.checkedRadioButtonId == R.id.three) {
-                    GroupSize.THREE
-                } else if(mGroupSizeRadioGroup!!.checkedRadioButtonId == R.id.four) {
-                    GroupSize.FOUR
-                }else {
-                    GroupSize.FIVEORMORE
-                }
+            if (!resources.getStringArray(R.array.university).contains(mUniversityText!!.text.toString())
+                    || !resources.getStringArray(R.array.departments).contains(mSchoolDepartmentText!!.text.toString())
+                    || mClassSectionText!!.text.toString().isEmpty() || mClassNameText!!.text.isEmpty()) {
+                Toast.makeText(
+                        applicationContext,
+                        "Invalid/missing informantion.",
+                        Toast.LENGTH_LONG
+                ).show()
+            } else {
+                Log.i(TAG, "Entered submitButton.OnClickListener.onClick()")
+                // TODO - gather ToDoItem data
+                val groupSize: GroupSize =
+                        if (mGroupSizeRadioGroup!!.checkedRadioButtonId == R.id.two) {
+                            GroupSize.TWO
+                        } else if (mGroupSizeRadioGroup!!.checkedRadioButtonId == R.id.three) {
+                            GroupSize.THREE
+                        } else if (mGroupSizeRadioGroup!!.checkedRadioButtonId == R.id.four) {
+                            GroupSize.FOUR
+                        } else {
+                            GroupSize.FIVEORMORE
+                        }
 
-            val classString: String = mClassNameText?.text.toString()
-            val universityString: String = mUniversityText?.text.toString()
-            val sectionString: String = mClassSectionText?.text.toString()
-            val departmentString: String = mSchoolDepartmentText?.text.toString()
-            val newClass= Classes(classString,universityString,groupSize,departmentString,sectionString, 1)
-            notebookRef!!.push().setValue(newClass)
-            usersDB!!.child(dataUser!!.uid).child("joinedClasses").push().setValue(newClass)
+                val classString: String = mClassNameText?.text.toString()
+                val universityString: String = mUniversityText?.text.toString()
+                val sectionString: String = mClassSectionText?.text.toString()
+                val departmentString: String = mSchoolDepartmentText?.text.toString()
+                val newClass = Classes(classString, universityString, groupSize, departmentString, sectionString, 1)
+                notebookRef!!.push().setValue(newClass)
+                usersDB!!.child(dataUser!!.uid).child("joinedClasses").push().setValue(newClass)
 
-            finish()
+                finish()
+            }
         }
     }
 

@@ -33,7 +33,13 @@ class LoadClassActivity: Activity() {
         mSchoolDepartmentText = findViewById<View>(R.id.autocompleteDep2) as AutoCompleteTextView
         mClassNameText = findViewById<View>(R.id.title2) as EditText
         getClasses = ArrayList()
+        val unis = resources.getStringArray(R.array.university)
+        val uniAdapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, unis)
+        mUniversityText!!.setAdapter(uniAdapter)
 
+        val depart = resources.getStringArray(R.array.departments)
+        val departAdapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, depart)
+        mSchoolDepartmentText!!.setAdapter(departAdapter)
 
         val cancelButton = findViewById<View>(R.id.cancelButton2) as Button
         cancelButton.setOnClickListener {
@@ -72,7 +78,27 @@ class LoadClassActivity: Activity() {
                         try {
                             single = postSnap.getValue(Classes::class.java)
                             Log.e("SLackr", single.toString() )
-                            if(single!!.className == classString && single!!.university == universityString && single!!.schoolDepartment == departmentString){
+                            var group = String()
+                            when(single!!.groupSize)
+                            {
+                                Classes.GroupSize.TWO ->
+                                {
+                                    group = 2.toString()
+                                }
+                                Classes.GroupSize.THREE ->
+                                {
+                                    group = 3.toString()
+                                }
+                                Classes.GroupSize.FOUR ->
+                                {
+                                    group = 4.toString()
+                                }
+                                Classes.GroupSize.FIVEORMORE ->
+                                {
+                                    group = 10.toString()
+                                }
+                            }
+                            if(single!!.className == classString && single!!.university == universityString && single!!.schoolDepartment == departmentString && single!!.numStudents.toInt() < group.toInt() ){
                                 getClasses.add(single!!)
                             }
                         }

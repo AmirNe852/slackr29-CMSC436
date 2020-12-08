@@ -22,6 +22,9 @@
         <activity android:name=".AddClassActivity" />
         <activity android:name=".LoadClassActivity"/>
         <activity android:name=".ListClassActivity"/>
+        <activity android:name=".ClassDetailsActivity"/>
+        <activity android:name=".SettingActivity"/>
+        <activity android:name=".MyClassesActivity"/>
     </application>
 
 </manifest>

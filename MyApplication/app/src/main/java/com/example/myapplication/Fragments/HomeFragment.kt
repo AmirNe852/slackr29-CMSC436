@@ -1,11 +1,23 @@
 package com.example.myapplication.Fragments
 
+import android.app.Activity
+import android.content.ContentValues
+import android.content.Intent
 import android.os.Bundle
+import android.renderscript.Sampler
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.ListView
+import android.widget.Toast
+import com.example.myapplication.*
 import com.example.myapplication.R
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -21,22 +33,61 @@ class HomeFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private var db : FirebaseDatabase? = FirebaseDatabase.getInstance()
+    private var notebookRef : DatabaseReference? = db!!.getReference("Notebooks")
+    private var dataUser : FirebaseUser? = FirebaseAuth.getInstance().currentUser
+    private var usersDB : DatabaseReference? = db!!.getReference("Users")
+    private lateinit var listViewClasses: ListView
+    internal lateinit var getClasses: MutableList<Classes>
+    private lateinit var ListViewAdapter: ArrayAdapter<String>
+    private lateinit var getNames: MutableList<String>
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+            override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+
+        var view : View =  inflater.inflate(R.layout.fragment_home, container, false)
+        listViewClasses = view.findViewById(R.id.list_groups)
+        getClasses = ArrayList<Classes>()
+        usersDB!!.child(dataUser!!.uid).child("joinedClasses").addValueEventListener(object : ValueEventListener
+        {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                var myClasses: Classes? = null
+                getClasses.clear()
+                for (postSnap in dataSnapshot.children) {
+                    try {
+
+                        myClasses = postSnap.getValue(Classes::class.java)
+                        getClasses.add(myClasses!!)
+                        val groupAdapter = this@HomeFragment.activity?.let { ClassList(it, getClasses) }
+                        listViewClasses.adapter = groupAdapter
+                    }  catch (e: java.lang.Exception){
+                        Log.e(ContentValues.TAG, e.toString())
+                    }
+                }
+//                if(getClasses.size > 0)
+//                {
+//
+//
+////                    val intent = Intent(activity, MyClassesActivity::class.java)
+////                    intent.putExtra("mylist", getClasses as ArrayList<Classes>)
+////                    startActivity(intent)
+//                }
+//                else{
+//                    val toast = Toast.makeText(context, "There are no Study Groups that match your Criteria", Toast.LENGTH_LONG)
+//                    toast.show()
+//                }
+            }
+
+            override fun onCancelled(databaseError : DatabaseError) {
+                Log.e("cancel", databaseError.toString())
+            }
+        })
+        return view
     }
 
     companion object {

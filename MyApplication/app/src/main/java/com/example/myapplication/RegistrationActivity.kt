@@ -74,9 +74,10 @@ class RegistrationActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     Toast.makeText(applicationContext, "Registration successful!", Toast.LENGTH_LONG).show()
                     progressBar!!.visibility = View.GONE
-                    var newUser: User = User(email, first, last)
 
+                    var newUser: User = User(email, first, last)
                     userRef!!.child(dataUser!!.uid).setValue(newUser)
+
                     val intent = Intent(this@RegistrationActivity, LoginActivity::class.java)
                     startActivity(intent)
                 } else {
