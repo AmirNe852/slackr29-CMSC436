@@ -65,6 +65,7 @@
     <string name = "display_size">Test 2</string>
     <string name = "display_members">Test 4</string>
     <string name = "join_button">Join</string>
+    <string name = "show_members">Group Members</string>
 
 
     <string name="test_author">Ivo Andric</string>

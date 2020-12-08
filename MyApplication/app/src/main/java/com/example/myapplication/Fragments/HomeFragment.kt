@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.Toast
@@ -42,10 +43,7 @@ class HomeFragment : Fragment() {
     private lateinit var ListViewAdapter: ArrayAdapter<String>
     private lateinit var getNames: MutableList<String>
 
-            override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
 
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -63,24 +61,21 @@ class HomeFragment : Fragment() {
 
                         myClasses = postSnap.getValue(Classes::class.java)
                         getClasses.add(myClasses!!)
-                        val groupAdapter = this@HomeFragment.activity?.let { ClassList(it, getClasses) }
-                        listViewClasses.adapter = groupAdapter
+
                     }  catch (e: java.lang.Exception){
                         Log.e(ContentValues.TAG, e.toString())
                     }
                 }
-//                if(getClasses.size > 0)
-//                {
-//
-//
-////                    val intent = Intent(activity, MyClassesActivity::class.java)
-////                    intent.putExtra("mylist", getClasses as ArrayList<Classes>)
-////                    startActivity(intent)
-//                }
-//                else{
-//                    val toast = Toast.makeText(context, "There are no Study Groups that match your Criteria", Toast.LENGTH_LONG)
-//                    toast.show()
-//                }
+                val groupAdapter = this@HomeFragment.activity?.let { ClassList(it, getClasses) }
+                listViewClasses.adapter = groupAdapter
+                listViewClasses.onItemClickListener = AdapterView.OnItemClickListener{
+                    adapterView, view, i, l ->
+                    val getClass = getClasses[i]
+                    val intent = Intent(activity, GroupChatActivity::class.java)
+                    intent.putExtra("singleClass", getClass)
+                    startActivity(intent)
+
+                }
             }
 
             override fun onCancelled(databaseError : DatabaseError) {
@@ -88,6 +83,10 @@ class HomeFragment : Fragment() {
             }
         })
         return view
+    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
     }
 
     companion object {
