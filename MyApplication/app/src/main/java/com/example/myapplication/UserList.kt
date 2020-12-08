@@ -8,11 +8,11 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
 
-class UserList(private val context: Activity, private var classes: MutableList<User>): ArrayAdapter<User>(context,R.layout.group_chat, classes){
+class UserList(private val context: Activity, private var classes: MutableList<User>): ArrayAdapter<User>(context,R.layout.layout_classes_list, classes){
     @SuppressLint("InflateParams", "ViewHolder")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val inflater = context.layoutInflater
-        val listViewItem = inflater.inflate(R.layout.group_chat, null, true)
+        val listViewItem = inflater.inflate(R.layout.layout_classes_list, null, true)
         val textViewName = listViewItem.findViewById<View>(R.id.textViewName) as TextView
         val textViewRating = listViewItem.findViewById<View>(R.id.textViewCountry) as TextView
         val single = classes[position]

@@ -14,6 +14,7 @@ class GroupChatActivity : AppCompatActivity() {
     private var notebookRef: DatabaseReference? = db!!.getReference("Notebooks")
     private var dataUser: FirebaseUser? = FirebaseAuth.getInstance().currentUser
     private var usersDB: DatabaseReference? = db!!.getReference("Users")
+    private lateinit var userGroupDB: DatabaseReference
     private lateinit var getNames: MutableList<User>
     private lateinit var listViewClasses: ListView
     internal lateinit var getClasses: MutableList<Classes>
@@ -28,29 +29,46 @@ class GroupChatActivity : AppCompatActivity() {
 
                 var myUser: User? = null
                 var myClasses: Classes? = null
+
                 for (postSnap in dataSnapshot.children) {
-                    try {
-                        usersDB!!.child(postSnap.toString()).child("joinedClasses").addValueEventListener(object : ValueEventListener {
-                            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                                var myClasses: Classes? = null
-                                for (eachClass in dataSnapshot.children)
+                    val id = postSnap.key
+                    userGroupDB = usersDB!!.child(id!!).child("joinedClasses")
+                    userGroupDB.addValueEventListener(object : ValueEventListener {
+
+                        override fun onDataChange(snap: DataSnapshot) {
+                            for (ds in snap.children) {
+                                //Log.i("Slacker-App", "ds: $ds")
+                                myClasses = ds.getValue(Classes::class.java)
+                                //Log.i("Slacker-App", "my class: $myClasses")
+                                if(myClasses.toString() == (singleClass.toString()))
                                 {
-                                    myClasses = eachClass.getValue(Classes::class.java)
-                                    if(myClasses!!.equals(singleClass))
-                                    {
-                                        myUser = postSnap.getValue(User::class.java)
-                                        getNames.add(myUser!!)
-                                    }
+                                    Log.i("Slacker-App", "inside if statement: $myClasses")
+                                    usersDB!!.child(id).addListenerForSingleValueEvent(object: ValueEventListener {
+
+                                        override fun onCancelled(p0: DatabaseError) {
+                                            Log.e("cancel", p0.toString())
+                                        }
+
+                                        override fun onDataChange(p0: DataSnapshot) {
+
+                                            myUser = p0.getValue(User::class.java)
+                                            if (notExist(myUser!!, getNames)) {
+                                                getNames.add(myUser!!)
+                                            }
+                                            listViewClasses = findViewById(R.id.member_list)
+                                            val classListAdapter = UserList(this@GroupChatActivity, getNames)
+                                            listViewClasses.adapter = classListAdapter
+                                        }
+                                    })
                                 }
                             }
-                            override fun onCancelled(databaseError: DatabaseError) {
-                                Log.e("cancel", databaseError.toString())
-                            }
-                        })
+                            Log.i("Slacker-App", "single class: $singleClass")
+                        }
 
-                    } catch (e: java.lang.Exception) {
-                        Log.e(ContentValues.TAG, e.toString())
-                    }
+                        override fun onCancelled(p0: DatabaseError) {
+                            //Log.i("Slacker-App", "")
+                        }
+                    })
                 }
             }
 
@@ -59,10 +77,18 @@ class GroupChatActivity : AppCompatActivity() {
                 Log.e("cancel", databaseError.toString())
             }
         })
-        listViewClasses = findViewById(R.id.member_list)
-        val classListAdapter = UserList(this@GroupChatActivity, getNames)
-        listViewClasses.adapter = classListAdapter
+//        listViewClasses = findViewById(R.id.member_list)
+//        val classListAdapter = UserList(this@GroupChatActivity, getNames)
+//        listViewClasses.adapter = classListAdapter
 
+    }
 
+    fun notExist(user: User, list: MutableList<User>):Boolean {
+        for (u in list){
+            if (u.fName == user.fName && u.email == user.email && u.lName == user.lName) {
+                return false
+            }
+        }
+        return true
     }
 }
